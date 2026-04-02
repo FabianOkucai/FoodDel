@@ -1,66 +1,38 @@
-import express from "express";
-import cors from "cors";
-import { connectDB } from "./config/db.js";  // Correct import for database connection
-import foodRouter from "./routes/foodRoute.js";  // Correct import for the food route
+const express = require('express');
+const cors = require('cors');
+const http = require('http');
+const connectDB = require('./config/db.js');
+const { initSocket } = require('./config/socket.js');
+const foodRouter = require('./routes/foodRoute.js');
+const authRouter = require('./routes/authRoute.js');
+const orderRouter = require('./routes/orderRoute.js');
 
-// App configuration
 const app = express();
-const port = 4000;
+const httpServer = http.createServer(app);
+const port = process.env.PORT || 4001;
+
+// Initialize Socket.io
+const io = initSocket(httpServer);
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
 // Database connection
-connectDB();  // Now it's calling the function correctly
+connectDB();
 
 // API endpoints
+app.use("/api/auth", authRouter);
 app.use("/api/food", foodRouter);
-app.use("/images",express.static('uploads'))
+app.use("/api/orders", orderRouter);
+app.use("/images", express.static('uploads'));
 
 app.get("/", (req, res) => {
   res.send("API Working");
 });
 
 // Server start
-app.listen(port, () => {
-  
+httpServer.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
-
 });
-
-
-
-
-// import express from "express"
-// import cors from "cors"
-// import { connectDB } from "./config/db.js"
-// import foodRouter from "./routes/foodRoute.js"
-
-
-
-// // app config
-// const app = express()
-// const port = 4000
-
-
-// // middleware 
-// app.use(express.json())
-// app.use(cors())
-
-// // db connection
-// - connectDB;
-// + connectDB();
-
-
-// // api endpoints
-// app.use("/api/food",foodRouter)
-
-// app.get("/",(req,res)=> {
-//     res.send("API Working")
-// })
-
-// app.listen(port, ()=>{
-//     console.log(`Server Started on http://localhost:${port}`)
-// })
 

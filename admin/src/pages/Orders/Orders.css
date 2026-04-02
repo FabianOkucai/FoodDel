@@ -1,0 +1,163 @@
+.orders {
+  padding: 20px;
+}
+
+.orders-filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.search-input,
+.filter-select,
+.date-filter {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-select,
+.date-filter {
+  min-width: 150px;
+}
+
+.orders-list {
+  display: grid;
+  gap: 20px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.order-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.order-date {
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.order-customer {
+  margin-bottom: 20px;
+}
+
+.order-customer h4,
+.order-items h4 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.order-customer p {
+  color: #666;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.order-items table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.order-items th,
+.order-items td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.order-items th {
+  font-weight: 500;
+  color: #333;
+}
+
+.order-total {
+  text-align: right;
+  color: tomato;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.order-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.status-select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.view-details-button {
+  padding: 8px 16px;
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.view-details-button:hover {
+  background-color: #bae7ff;
+}
+
+.status-badge.info {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+@media (max-width: 768px) {
+  .orders-filters {
+    flex-direction: column;
+  }
+  
+  .search-input,
+  .filter-select,
+  .date-filter {
+    width: 100%;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+  }
+  
+  .status-select,
+  .view-details-button {
+    width: 100%;
+  }
+} 

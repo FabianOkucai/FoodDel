@@ -1,40 +1,52 @@
-import { createContext, useEffect,  } from "react";
+import { createContext, useEffect, useState } from "react";
 import { food_list } from "../assets/assets";
-import React, { useState }from 'react'
 
-
-export const StoreContext = createContext()
+export const StoreContext = createContext();
 
 const StoreContextProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : {};
+  });
 
-  const [cartItems,setCartItems] = useState({});
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev)=>({...prev,[itemId]:1}))
-    }
-    else{
-      setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
-    }
-  }
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] || 0) + 1
+    }));
+  };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))
-  }
+    setCartItems((prev) => {
+      const updatedCart = { ...prev };
+      if (updatedCart[itemId] > 0) {
+        updatedCart[itemId] -= 1;
+        if (updatedCart[itemId] === 0) {
+          delete updatedCart[itemId];
+        }
+      }
+      return updatedCart;
+    });
+  };
+
+  const clearCart = () => {
+    setCartItems({});
+  };
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItems[item];
+    return Object.entries(cartItems).reduce((total, [itemId, quantity]) => {
+      const itemInfo = food_list.find((product) => product._id === itemId);
+      return total + (itemInfo?.price || 0) * quantity;
+    }, 0);
+  };
 
-      }
-
-    }
-    return totalAmount;
-  }
-
+  const getTotalItems = () => {
+    return Object.values(cartItems).reduce((total, quantity) => total + quantity, 0);
+  };
 
   const contextValue = {
     food_list,
@@ -42,14 +54,16 @@ const StoreContextProvider = ({ children }) => {
     setCartItems,
     addToCart,
     removeFromCart,
-    getTotalCartAmount
-  }
+    clearCart,
+    getTotalCartAmount,
+    getTotalItems
+  };
 
   return (
     <StoreContext.Provider value={contextValue}>
       {children}
     </StoreContext.Provider>
-  )
+  );
+};
 
-}
-export default StoreContextProvider
+export default StoreContextProvider;

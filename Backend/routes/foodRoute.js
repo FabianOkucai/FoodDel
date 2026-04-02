@@ -1,7 +1,7 @@
-import express from "express";
-import { addFood,listFood, removeFood} from "../controllers/foodControllers.js";  // Correct import for the controller
-import multer from "multer";
-import fs from "fs";
+const express = require('express');
+const { addFood, listFood, removeFood } = require('../controllers/foodControllers');
+const multer = require('multer');
+const fs = require('fs');
 
 const foodRouter = express.Router();
 
@@ -27,13 +27,7 @@ foodRouter.get("/list",listFood)
 foodRouter.post("/remove",removeFood)
 
 
-export default foodRouter;
-
-
-
-
-// import express from "express"
-// import { addFood } from "../controllers/foodControllers.js"
+module.exports = foodRouter;
 // import multer from "multer"
 // import fs from "fs";
 
